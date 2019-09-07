@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
         <DebugType>full</DebugType>
+        <LangVersion>7.1</LangVersion>
     </PropertyGroup>
 
 
