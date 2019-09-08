@@ -33,19 +33,13 @@ namespace KhalidAbuhakmeh.AspNetCore.Search.Models.Elasticsearch
             // let's create the index
             var createResult = 
                 await client.Indices.CreateAsync(IndexName, c => c
-//                .Settings(s => s
-//                        .Analysis(a => a
-//                            .Analyzers(az => az
-//                                .Custom("autocomplete", ca => ca.
-//                                    Tokenizer("autocomplete")
-//                                    .Filters("lowercase")
-//                                )
-//                            )
-//                        )
-//                )
-                .Map<CapitalSearchDocument>(m => m
-                        .AutoMap()
-                )
+                    .Settings(s => s
+                        .Analysis(a => a
+                            // our custom search analyzer
+                            .AddSearchAnalyzer()
+                        )
+                    )
+                .Map<CapitalSearchDocument>(m => m.AutoMap())
             );
             
             // let's load the data
