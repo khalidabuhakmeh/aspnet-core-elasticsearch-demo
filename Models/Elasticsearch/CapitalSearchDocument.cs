@@ -57,7 +57,7 @@ namespace KhalidAbuhakmeh.AspNetCore.Search.Models.Elasticsearch
         [Keyword]
         public string City { get; set; }
         
-        [Object(Store = true, Enabled = false)]
+        [Object(Enabled = false)]
         public CapitalCityRecord Data { get; set; }
         
         // store location

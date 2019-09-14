@@ -32,9 +32,10 @@ namespace KhalidAbuhakmeh.AspNetCore.Search.Pages
                 Search =
                     client.Search<CapitalSearchDocument>(s =>
                         s.Query(q => q
-                                .MatchPhrasePrefix(m => m
+                                .Match(m => m
                                     .Field(f => f.Names)
                                     .Query(Term)
+                                    .Fuzziness(Fuzziness.EditDistance(1))
                                 )
                             )
                             .Take(10)
