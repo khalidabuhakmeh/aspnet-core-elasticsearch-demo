@@ -4,7 +4,64 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form action="" method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search For Capital..." name="term" value="@Model.Term"
+               autocomplete="off" autofocus="autofocus">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">
+                <i class=""></i> Search
+            </button>
+        </div>
+    </div>
+</form>
+
+@if (Model.HasSearch)
+{
+    var results = Model.Search.Documents.Select(x => x.Data).ToList();
+    
+    @if (!results.Any())
+    {
+        <div class="jumbotron">
+            <h1 class="display-4">You Didn't Find Anything For "@Model.Term"</h1>
+            <p class="lead">Keep looking, you may find what you're search for!</p>
+        </div>
+    }
+    else
+    {
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="row">
+                        @foreach (var result in results)
+                        {
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm">
+                                    <div class="card-body">
+                                        <img class="card-img-top" src="@Model.MapImageUrl(result)" alt="@result.City">
+                                        <hr/>
+                                        <h5 class="card-title">@result.City</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">@result.Country</h6>
+                                        <p class="card-text">
+                                            Population of @result.City, @result.Country is @(result.Population.HasValue ? $"approximately {result.Population:0,0}" : "Unknown").
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="jumbotron">
+        <h1 class="display-4">Hello, world!</h1>
+        <p class="lead">Use the search bar to find a capital city of the world.</p>
+        <hr class="my-4">
+        <p>This sample uses Elasticsearch, ASP.NET Core Razor Pages, and MapQuest Static Map API to bring you this experience.</p>
+        <a class="btn btn-primary btn-lg" href="https://khalidabuhakmeh.com" role="button">Learn more</a>
+    </div>
+}

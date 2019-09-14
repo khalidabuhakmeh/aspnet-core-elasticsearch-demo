@@ -28,12 +28,14 @@ namespace KhalidAbuhakmeh.AspNetCore.Search.Models.Elasticsearch
                 .Union(record.Country.Split(' '))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
+
+            City = record.City;
             Country = record.Country;
+            
             // Elasticsearch supports GeoPoints as Arrays
             Location = new[] {record.Longitude, record.Latitude};
             Data = record;
         }
-        
         
         public string Id { get; set; }
         
@@ -52,7 +54,10 @@ namespace KhalidAbuhakmeh.AspNetCore.Search.Models.Elasticsearch
         [Keyword]
         public string Country { get; set; }
         
-        [Object(Enabled = false)]
+        [Keyword]
+        public string City { get; set; }
+        
+        [Object(Store = true, Enabled = false)]
         public CapitalCityRecord Data { get; set; }
         
         // store location
